@@ -113,6 +113,13 @@ impl PackageManagerEnum {
 
         return param;
     }
+
+    pub fn needs_root(&self) -> bool {
+        match self {
+            PackageManagerEnum::PARU | PackageManagerEnum::YAY => false,
+            _ => true,
+        }
+    }
 }
 
 pub struct PackageManager {
@@ -130,10 +137,14 @@ impl PackageManager {
         mut packages: Vec<String>,
         update: bool,
     ) -> Result<(), PackageManagerError> {
-        let program: &str = &self.package_manager.get_command();
-        let mut args: Vec<String> = vec![self.package_manager.get_install_param(update)];
+        let (program, mut args) = if self.package_manager.needs_root() {
+            ("sudo".to_owned(), vec![self.package_manager.get_command(), self.package_manager.get_install_param(update)])
+        } else {
+            (self.package_manager.get_command(), vec![self.package_manager.get_install_param(update)])
+        };
+
         args.append(&mut packages);
-        let exit_status: ExitStatus = command_service::run_command(program, args, Labels::Info_StartingPackageInstallation)?;
+        let exit_status: ExitStatus = command_service::run_command(&program, args, Labels::Info_StartingPackageInstallation)?;
 
         if !exit_status.success() {
             return Err(PackageManagerError::InstallFailed(

@@ -5,43 +5,25 @@ use std::{
 
 use crate::{error::CommandError, service::{language_service::{t, Labels}, log_service::{log, LogType}}};
 
-pub fn run_command(program: &str, args: Vec<String>, info_label: Labels) -> Result<ExitStatus, CommandError> {
-    let mut command = Command::new(program);
-    command.args(args);
+use duct::cmd;
 
+pub fn run_command(program: &str, args: Vec<String>, info_label: Labels) -> Result<ExitStatus, CommandError> {
     log(
         LogType::INFO,
-        &t(info_label, Some(vec![format_command(&command)])),
+        &t(info_label, Some(vec![format!("{} {}", program, args.join(" "))])),
     );
 
     if std::env::var("MOCK").is_ok() {
-        log(LogType::INFO, &format!("MOCK: {}", format_command(&command)));
+        log(LogType::INFO, &format!("MOCK: {} {}", program, args.join(" ")));
         return Ok(ExitStatus::default());
     }
 
-    let mut child = command.stdout(Stdio::piped())
-        .spawn()
+    let output = cmd(program, &args)
+        .run()
         .map_err(|_| CommandError::CommandFailed(Labels::Error_CommandFailed, None))?;
 
-    let stdout = child.stdout
-        .take()
-        .ok_or(CommandError::UserAbort(Labels::Error_UserAbort, None))?;
-
-    let reader = BufReader::new(stdout);
-
-    for line in reader.lines() {
-        match line {
-            Ok(line) => println!("{}", line.trim()),
-            Err(_) => break,
-        }
-    }
-
-    let status = child.wait()
-        .map_err(|_| CommandError::CommandFailed(Labels::Error_CommandFailed, None))?;
-
-    Ok(status)
+    Ok(output.status)
 }
-
 
 pub fn ask_continue() -> Result<(), CommandError> {
     print!("{}", t(Labels::Info_ConfirmContinue, None));
