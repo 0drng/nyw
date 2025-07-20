@@ -18,7 +18,7 @@ mod service;
 async fn main() -> Result<(), ApplicationError> {
     // Programm requires root access to run packagemanager
     
-    file_service::check_permission()?;
+    // file_service::check_permission()?;
 
     // Getting all data needed in further process
     let config_file: ConfigFile =
