@@ -1,0 +1,29 @@
+{
+    "packages" : [
+        "bat",
+        "btop",
+        {
+            "name": "ungoogled-chromium",
+            "aur": true
+        },
+        {
+            "name": "hyprland",
+            "dot_configs": [
+                {
+                    "src": "https://raw.githubusercontent.com/hyprwm/Hyprland/refs/heads/main/example/hyprland.conf",
+                    "dest": "/home/user/.config/hyprland/hyprand.conf"
+                }  
+            ]
+        },
+        {
+            "name": "hyprlock",
+            "disabled" : true,
+            "dot_configs": [
+                {
+                    "src": "/etc/nyw/.config/hypr/hyprlock.conf",
+                    "dest": "/home/user/.config/hypr/hyprlock.conf"
+                }  
+            ]
+        }
+    ]
+}

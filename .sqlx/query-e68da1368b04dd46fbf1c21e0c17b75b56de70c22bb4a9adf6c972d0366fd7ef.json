@@ -1,0 +1,32 @@
+{
+  "db_name": "SQLite",
+  "query": "\n        SELECT id as \"id!:u32\", name, action\n        FROM applications \n        WHERE id = ?\n        ",
+  "describe": {
+    "columns": [
+      {
+        "name": "id!:u32",
+        "ordinal": 0,
+        "type_info": "Integer"
+      },
+      {
+        "name": "name",
+        "ordinal": 1,
+        "type_info": "Text"
+      },
+      {
+        "name": "action",
+        "ordinal": 2,
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": [
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "e68da1368b04dd46fbf1c21e0c17b75b56de70c22bb4a9adf6c972d0366fd7ef"
+}

@@ -1,0 +1,15 @@
+[package]
+name = "nyw"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+serde = { version = "1.0.219", features = ["derive"] }
+serde_jsonc = "1.0.108"
+lazy_static = "1.5.0"
+
+sqlx = { version = "0.8.6", features = ["runtime-tokio-native-tls", "sqlite", "chrono"]}
+tokio = { version = "1.46.1", features = ["macros", "rt-multi-thread"]}
+chrono = { version = "0.4.41" }
+
+reqwest = { version = "0.12.22", features = ["rustls-tls"] }

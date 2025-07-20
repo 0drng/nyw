@@ -1,0 +1,32 @@
+{
+  "db_name": "SQLite",
+  "query": "\n        SELECT id as \"id!:u32\", hash, timestamp as \"timestamp!:NaiveDateTime\"\n        FROM locks \n        WHERE id = ?\n        ",
+  "describe": {
+    "columns": [
+      {
+        "name": "id!:u32",
+        "ordinal": 0,
+        "type_info": "Integer"
+      },
+      {
+        "name": "hash",
+        "ordinal": 1,
+        "type_info": "Text"
+      },
+      {
+        "name": "timestamp!:NaiveDateTime",
+        "ordinal": 2,
+        "type_info": "Datetime"
+      }
+    ],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": [
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "2ad290eac2916085a8492b577e71dd84fdfc9c5923ea52ea38bee2e7d16e6e3f"
+}
