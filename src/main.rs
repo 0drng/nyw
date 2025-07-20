@@ -56,8 +56,12 @@ async fn main() -> Result<(), ApplicationError> {
         )?;
     }
 
+    if !packages_aur_str.is_empty() {
+        PackageManagerEnum::get_aur_helper()?;
+    }
+
     let package_manager: PackageManager = PackageManager::new(PackageManagerEnum::get_package_manager()?)?;
-    let package_manager_aur: PackageManager = PackageManager::new(PackageManagerEnum::get_package_manager()?)?;
+    let package_manager_aur: PackageManager = PackageManager::new(PackageManagerEnum::get_aur_helper()?)?;
 
     if !packages_str.is_empty() {
         package_manager.install_packages(
