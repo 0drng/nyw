@@ -161,11 +161,13 @@ impl PackageManager {
         mut packages: Vec<String>,
         with_dependencies: bool,
     ) -> Result<(), PackageManagerError> {
-        let program: &str = &self.package_manager.get_command();
-        let mut args: Vec<String> =
-            vec![self.package_manager.get_uninstall_param(with_dependencies)];
+        let (program, mut args) = if self.package_manager.needs_root() {
+            ("sudo".to_owned(), vec![self.package_manager.get_command(), self.package_manager.get_uninstall_param(with_dependencies)])
+        } else {
+            (self.package_manager.get_command(), vec![self.package_manager.get_uninstall_param(with_dependencies)])
+        };
         args.append(&mut packages);
-        let exit_status: ExitStatus = command_service::run_command(program, args, Labels::Info_StartingPackageRemoval)?;
+        let exit_status: ExitStatus = command_service::run_command(&program, args, Labels::Info_StartingPackageRemoval)?;
 
         if !exit_status.success() {
             return Err(PackageManagerError::UninstallFailed(
