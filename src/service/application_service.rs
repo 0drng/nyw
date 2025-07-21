@@ -4,7 +4,7 @@ use crate::{
     error::ApplicationError,
     model::{
         application::Application,
-        package_manager::{PackageManager, PackageManagerEnum},
+        package_manager::{self, PackageManager, PackageManagerEnum},
     },
     repository::{application_repository, lock_repository},
 };
@@ -48,7 +48,11 @@ pub async fn get_applications_to_remove(
         .map(Application::get_name)
         .collect();
 
+    let package_manager: PackageManager = PackageManager::new(PackageManagerEnum::get_package_manager()?)?;
+    let installed_packages: Vec<String> = package_manager.get_installed();
+
     let packages_to_remove: Vec<String> = last_installed_packages.clone().into_iter().filter(|package| !packages.contains(&package)).collect();
+    let packages_to_remove: Vec<String> = packages_to_remove.into_iter().filter(|package| installed_packages.contains(&package)).collect();
 
     return Ok(packages_to_remove);
 }
