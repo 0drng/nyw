@@ -1,3 +1,7 @@
+<p align="center">
+<img src="https://github.com/0drng/nyw/blob/develop/Logo.png" alt="nyw-logo" width="210" />
+</p>
+
 # Nyw (nywida)
 
 A declarative package manager helper. Define your entire system package configuration in a single JSON file and let nyw handle the rest.
