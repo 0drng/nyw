@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://github.com/0drng/nyw/blob/develop/Logo.png" alt="nyw-logo" width="210" />
+<img src="https://github.com/0drng/nyw/blob/main/Logo.png" alt="nyw-logo" width="210" />
 </p>
 
 # Nyw (nywida)
@@ -68,7 +68,7 @@ Born from the frustration of manually managing packages across different systems
 
 Nyw will always remain free and open source. If you find it useful and want to support its continued development, crypto donations are greatly appreciated.
 
-<img src="https://github.com/0drng/nyw/blob/develop/Support.png" alt="nyw-support-logo" width="160" />
+<img src="https://github.com/0drng/nyw/blob/main/Support.png" alt="nyw-support-logo" width="160" />
 
 ## Contributing
 
