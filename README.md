@@ -1,3 +1,7 @@
+<p align="center">
+<img src="https://github.com/0drng/nyw/blob/main/Logo.png" alt="nyw-logo" width="210" />
+</p>
+
 # Nyw (nywida)
 
 A declarative package manager helper. Define your entire system package configuration in a single JSON file and let nyw handle the rest.
@@ -59,6 +63,12 @@ nyw
 ## Why nyw?
 
 Born from the frustration of manually managing packages across different systems, nyw brings the declarative package management philosophy of NixOS to any Linux distribution (and beyond). Whether you're managing a single machine or multiple systems, nyw ensures consistency and reproducibility.
+
+## Support
+
+Nyw will always remain free and open source. If you find it useful and want to support its continued development, crypto donations are greatly appreciated.
+
+<img src="https://github.com/0drng/nyw/blob/main/Support.png" alt="nyw-support-logo" width="160" />
 
 ## Contributing
 
