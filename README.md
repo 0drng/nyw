@@ -70,6 +70,8 @@ Nyw will always remain free and open source. If you find it useful and want to s
 
 <img src="https://github.com/0drng/nyw/blob/main/static/pictures/Support.png" alt="nyw-support-logo" width="160" />
 
+BTC: `bc1qayglvr4lkt27kw7w7zr78gaqgrecrg5d4pelwr`
+
 ## Contributing
 
 We welcome contributions! Whether it's adding support for new package managers, improving existing functionality, or enhancing documentation.
