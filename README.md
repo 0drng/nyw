@@ -10,6 +10,8 @@ A declarative package manager helper. Define your entire system package configur
 
 Nyw allows you to declaratively manage packages across different operating systems and package managers using a simple JSONC configuration file. Instead of manually installing packages one by one, you describe your desired system state and nyw makes it happen.
 
+Most developers are familiar with the declarative approach to managing projects—using tools like Cargo.toml or package.json. So why not apply the same principle to your operating system configuration? This way, you can reliably rebuild your system exactly the way you want it, every time.
+
 ## Features
 
 ### Fully Supported Package Managers
@@ -26,6 +28,8 @@ Nyw allows you to declaratively manage packages across different operating syste
 
 ### Planned Support
 - **Android Package Manager** via ADB - Planned
+
+
 
 ## Getting Started
 
@@ -62,7 +66,9 @@ nyw
 
 ## Why nyw?
 
-Born from the frustration of manually managing packages across different systems, nyw brings the declarative package management philosophy of NixOS to any Linux distribution (and beyond). Whether you're managing a single machine or multiple systems, nyw ensures consistency and reproducibility.
+Born from the frustration of manually managing packages across different systems, nyw brings the declarative package management philosophy of NixOS to any Linux distribution (and beyond). Whether you're managing a single machine or an entire fleet, nyw ensures consistency and reproducibility in terms of packages and system configurations.
+
+However, unlike tools that generate lock files (like `package-lock.json` or `Cargo.lock`), nyw does not track exact versions or preserve access to older package versions.
 
 ## Support
 
