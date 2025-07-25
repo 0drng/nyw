@@ -6,4 +6,3 @@ pub mod file_service;
 pub mod language_service;
 pub mod lock_service;
 pub mod log_service;
-pub mod os_service;
