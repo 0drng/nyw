@@ -34,6 +34,7 @@ lazy_static! {
             (Labels::Info_NewlyInstalledPackages, "INFO: {0} newly/installed packages".to_owned()),
             (Labels::Info_CopyingFile, "INFO: Copying file {0} to {1}".to_owned()),
             (Labels::Info_WritingFile, "INFO: Writing content into file {0}".to_owned()),
+            (Labels::Info_Priviledge_Deeskalation, "INFO: Deesklation of priviledges to {0}".to_owned())
         ]))
     ]);
 }
@@ -66,6 +67,7 @@ pub enum Labels {
     Info_NewlyUninstalledPackages,
     Info_CopyingFile,
     Info_WritingFile,
+    Info_Priviledge_Deeskalation,
 }
 
 pub fn t(label: Labels, params: Option<Vec<String>>) -> String {
