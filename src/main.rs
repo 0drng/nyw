@@ -52,6 +52,7 @@ async fn main() -> Result<(), ApplicationError> {
         command_service::run_command(
             "sh",
             vec![script_path.bin],
+            true,
             Some(Labels::Info_ExecutingPostScript),
         )?;
     }
@@ -102,6 +103,7 @@ async fn main() -> Result<(), ApplicationError> {
         command_service::run_command(
             "sh",
             vec![script_path.bin],
+            true,
             Some(Labels::Info_ExecutingPostScript),
         )?;
     }
