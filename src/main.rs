@@ -1,4 +1,4 @@
-use sqlx::{migrate, Pool, Sqlite};
+use sqlx::{Pool, Sqlite};
 
 use crate::{
     error::ApplicationError, model::{
@@ -18,7 +18,7 @@ mod service;
 async fn main() -> Result<(), ApplicationError> {
     // Programm requires root access to run packagemanager
     
-    // file_service::check_permission()?;
+    file_service::check_permission()?;
 
     // Getting all data needed in further process
     let config_file: ConfigFile =
@@ -52,7 +52,7 @@ async fn main() -> Result<(), ApplicationError> {
         command_service::run_command(
             "sh",
             vec![script_path.bin],
-            Labels::Info_ExecutingPostScript,
+            Some(Labels::Info_ExecutingPostScript),
         )?;
     }
 
@@ -102,7 +102,7 @@ async fn main() -> Result<(), ApplicationError> {
         command_service::run_command(
             "sh",
             vec![script_path.bin],
-            Labels::Info_ExecutingPostScript,
+            Some(Labels::Info_ExecutingPostScript),
         )?;
     }
 

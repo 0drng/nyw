@@ -134,19 +134,19 @@ impl PackageManager {
 
     pub fn install_packages(
         &self,
-        mut packages: Vec<String>,
+        packages: Vec<String>,
         update: bool,
     ) -> Result<(), PackageManagerError> {
-        let (program, mut args) = if self.package_manager.needs_root() {
-            ("sudo".to_owned(), vec![self.package_manager.get_command(), self.package_manager.get_install_param(update)])
-        } else {
-            (self.package_manager.get_command(), vec![self.package_manager.get_install_param(update)])
-        };
+        let program: String = self.package_manager.get_command();
 
-        args.append(&mut packages);
-        let exit_status: ExitStatus = command_service::run_command(&program, args, Labels::Info_StartingPackageInstallation)?;
+        let args: Vec<String> = vec![self.package_manager.get_install_param(update)]
+            .into_iter()
+            .chain(packages.into_iter())
+            .collect();
 
-        if !exit_status.success() {
+        let needs_root: bool = self.package_manager.needs_root();
+
+        if let Err(error) = command_service::run_command(&program, args, needs_root, Some(Labels::Info_StartingPackageInstallation)) {
             return Err(PackageManagerError::InstallFailed(
                 Labels::Error_InstallationFailed,
                 None,
@@ -158,18 +158,18 @@ impl PackageManager {
 
     pub fn uninstall_packages(
         &self,
-        mut packages: Vec<String>,
+        packages: Vec<String>,
         with_dependencies: bool,
     ) -> Result<(), PackageManagerError> {
-        let (program, mut args) = if self.package_manager.needs_root() {
-            ("sudo".to_owned(), vec![self.package_manager.get_command(), self.package_manager.get_uninstall_param(with_dependencies)])
-        } else {
-            (self.package_manager.get_command(), vec![self.package_manager.get_uninstall_param(with_dependencies)])
-        };
-        args.append(&mut packages);
-        let exit_status: ExitStatus = command_service::run_command(&program, args, Labels::Info_StartingPackageRemoval)?;
 
-        if !exit_status.success() {
+        let program: String = self.package_manager.get_command();
+
+        let args: Vec<String> = vec![self.package_manager.get_uninstall_param(with_dependencies)]
+            .into_iter()
+            .chain(packages.into_iter())
+            .collect();
+                
+        if let Err(error) = command_service::run_command(&program, args, true, Some(Labels::Info_StartingPackageRemoval)) {
             return Err(PackageManagerError::UninstallFailed(
                 Labels::Error_UninstallFailed,
                 None,
