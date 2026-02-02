@@ -17,7 +17,7 @@ mod service;
 #[tokio::main]
 async fn main() -> Result<(), ApplicationError> {
     // Programm requires root access to run packagemanager
-    
+
     file_service::check_permission()?;
 
     // Getting all data needed in further process
@@ -30,8 +30,6 @@ async fn main() -> Result<(), ApplicationError> {
 
     let packages_str: Vec<String> = packages.iter().map(Package::get_package_name).collect();
     let packages_aur_str: Vec<String> = packages_aur.iter().map(Package::get_package_name).collect();
-
-    // command_service::ask_continue()?;
 
     let pre_scripts: Vec<Script> = packages
         .iter()
