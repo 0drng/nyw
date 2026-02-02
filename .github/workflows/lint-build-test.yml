@@ -7,37 +7,34 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - name: Set up Rust
+        uses: actions-rs/toolchain@v1
         with:
-          node-version: '16'
-      - name: Install dependencies
-        run: npm install
+          toolchain: stable
+          override: true
       - name: Run lint
-        run: npm run lint
+        run: cargo clippy -- -D warnings
 
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - name: Set up Rust
+        uses: actions-rs/toolchain@v1
         with:
-          node-version: '16'
-      - name: Install dependencies
-        run: npm install
+          toolchain: stable
+          override: true
       - name: Run build
-        run: npm run build
+        run: cargo build --release
 
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - name: Set up Rust
+        uses: actions-rs/toolchain@v1
         with:
-          node-version: '16'
-      - name: Install dependencies
-        run: npm install
+          toolchain: stable
+          override: true
       - name: Run tests
-        run: npm run test
+        run: cargo test
