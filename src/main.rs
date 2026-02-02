@@ -16,23 +16,17 @@ mod service;
 
 #[tokio::main]
 async fn main() -> Result<(), ApplicationError> {
-    // Programm requires root access to run packagemanager
-    
-    file_service::check_permission()?;
-
     // Getting all data needed in further process
-    let config_file: ConfigFile =
+    let config_file: ConfigFile = 
         config_service::get_merged_config(file_service::get_platform_specific_path());
     let pool: Pool<Sqlite> = repository::db::get_pool().await?;
 
-    let packages: Vec<Package> = config_file.get_packages().into_iter().filter(|p| !p.is_aur()).collect();
-    let packages_aur: Vec<Package> = config_file.get_packages().into_iter().filter(|p| p.is_aur()).collect();
+    let all_packages = config_file.get_packages();
+    let packages: Vec<Package> = all_packages.iter().filter(|p| !p.is_aur()).cloned().collect();
+    let packages_aur: Vec<Package> = all_packages.iter().filter(|p| p.is_aur()).cloned().collect();
 
     let packages_str: Vec<String> = packages.iter().map(Package::get_package_name).collect();
     let packages_aur_str: Vec<String> = packages_aur.iter().map(Package::get_package_name).collect();
-
-
-    // command_service::ask_continue()?;
 
     let pre_scripts: Vec<Script> = packages
         .iter()
@@ -52,8 +46,7 @@ async fn main() -> Result<(), ApplicationError> {
         command_service::run_command(
             "sh",
             vec![script_path.bin],
-            true,
-            Some(Labels::Info_ExecutingPostScript),
+            Labels::Info_ExecutingPostScript,
         )?;
     }
 
@@ -66,18 +59,17 @@ async fn main() -> Result<(), ApplicationError> {
 
     if !packages_str.is_empty() {
         package_manager.install_packages(
-            get_applications_to_install(packages_str.clone()).unwrap(),
+            get_applications_to_install(packages_str.clone())?,
             true,
         )?;
     }
 
     if !packages_aur_str.is_empty() {
         package_manager_aur.install_packages(
-            get_applications_to_install(packages_aur_str.clone()).unwrap(),
+            get_applications_to_install(packages_aur_str.clone())?,
             true,
         )?;
     }
-
 
     let packages_to_uninstall: Vec<String> = application_service::get_applications_to_remove(&pool, packages_str).await?;
     if !packages_to_uninstall.is_empty() {
@@ -89,12 +81,12 @@ async fn main() -> Result<(), ApplicationError> {
 
     for dot_file in dot_files {
         if let Some(src) = dot_file.src {
-            file_service::copy_file(&src, &dot_file.dest).await.unwrap();
+            file_service::copy_file(&src, &dot_file.dest).await?;
             continue;
         }
 
         if let Some(content) = dot_file.content {
-            file_service::write_file(&content, &dot_file.dest).unwrap();
+            file_service::write_file(&content, &dot_file.dest)?;
             continue;
         }
     }
@@ -103,13 +95,12 @@ async fn main() -> Result<(), ApplicationError> {
         command_service::run_command(
             "sh",
             vec![script_path.bin],
-            true,
-            Some(Labels::Info_ExecutingPostScript),
+            Labels::Info_ExecutingPostScript,
         )?;
     }
 
-    let lock: Lock = lock_repository::save_lock(&pool, LockAdd { hash: "()".to_owned() }).await.unwrap();
-    application_repository::save_applications(&pool, packages.iter().map(|p| Application::new(lock.id, p.get_package_name(), "INSTALL".to_owned())).collect()).await.unwrap();
+    let lock: Lock = lock_repository::save_lock(&pool, LockAdd { hash: "dynamic_hash_placeholder".to_owned() }).await?;
+    application_repository::save_applications(&pool, packages.iter().map(|p| Application::new(lock.id, p.get_package_name(), "INSTALL".to_owned())).collect()).await?;
 
     Ok(())
 }
