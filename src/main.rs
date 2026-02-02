@@ -1,6 +1,5 @@
-// Example Rust file with linting issues
+// Fixed Rust file with linting errors resolved
 fn main() {
-    let unused_variable = 5; // Unused variable
     let another_variable = 10;
     println!("{}", another_variable);
 }
