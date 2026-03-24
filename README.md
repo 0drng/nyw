@@ -30,12 +30,17 @@ Most developers are familiar with the declarative approach to managing projectsâ
 - **Android Package Manager** via ADB - Planned
 
 
-
 ## Getting Started
 
-1. Create your configuration file based on the provided `example.jsonc`
-2. Run nyw to apply your configuration
-3. Your system will be configured exactly as described
+1. **Generate your configuration file:**
+   ```bash
+   nyw --generate-config > ~/.config/nyw/config.jsonc
+   ```
+2. Edit the generated file to add your packages.
+3. Run nyw to apply your configuration:
+   ```bash
+   nyw
+   ```
 
 ## Configuration
 
@@ -49,20 +54,27 @@ The configuration file allows you to:
 
 ## Installation
 
+### AUR (Arch Linux)
 ```bash
-# AUR
 paru -S nyw
+```
 
-# Linux/MacOS
-already supported but no install instructions
+### Linux/MacOS (Cargo)
+```bash
+# Clone and install
+cd nyw
+git checkout develop
+cargo install --path .
 ```
 
 ## Usage
 
 ```bash
-# Apply your configuration
-nyw
+# Apply your configuration (requires root)
+sudo nyw
 ```
+
+> **Note:** Nyw requires root access to manage system packages.
 
 ## Why nyw?
 
@@ -87,4 +99,3 @@ We welcome contributions! Whether it's adding support for new package managers, 
 Apache license 2.0
 
 ---
-
